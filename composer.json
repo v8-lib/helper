@@ -1,0 +1,21 @@
+{
+    "name": "v8/helper",
+    "description": "Hyper日常函",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ren",
+            "email": "renlongfei@qianqiantech.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/Functions.php"
+        ]
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-bcmath": "*"
+    }
+}
