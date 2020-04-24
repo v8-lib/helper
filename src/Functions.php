@@ -73,20 +73,85 @@ if (false === function_exists('fen2yuan')) {
 if (false === function_exists('avgAmount')) {
 
     /**
-     * 计算平均金额，并将平均数和尾差都返回
+     * 根据数组值占比，分摊总数尾差挂数组最后一元素
+     *
+     * $data = [ 123 => 500, 124 => 800]
+     * @param int   $total
+     * @param array $data
+     *
+     * @return array
      */
     function avgAmount(int $total, array $data): array
     {
-        return [];
+        $avg = [];
+
+        $ratioList = avgRatio($data);
+        $diff      = $total;
+        foreach ($data as $key => $item) {
+            $avg[$key] = bcmul((string)$total, (string)$ratioList[$key]);
+            $diff      = bcsub((string)$diff, $avg[$key]);
+        }
+
+        $keys = array_keys($data);
+        $key  = end($keys);
+
+        $avg[$key] += $diff;
+
+        return $avg;
     }
 }
 
 if (false === function_exists('avgRatio')) {
     /**
      * 计算平均占比
+     *
+     * @param array $data
+     *
+     * @return array
      */
-    function avgRatio(int $total, array $data): array
+    function avgRatio(array $data): array
     {
-        return [];
+        $total = array_sum($data);
+
+        $return = [];
+        foreach ($data as $key => $item) {
+            $ratio = bcdiv((string)$item, (string)$total, 4);
+
+            $return[$key] = $ratio;
+        }
+
+        return $return;
+    }
+}
+
+if (false === function_exists('camelize')) {
+    /**
+     * 下划线转驼峰
+     *
+     * @param        $uncamelized_words
+     * @param string $separator
+     *
+     * @return string
+     */
+    function camelize($uncamelized_words, $separator = '_')
+    {
+        $uncamelized_words = $separator . str_replace($separator, " ", strtolower($uncamelized_words));
+
+        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator);
+    }
+}
+
+if (false === function_exists('uncamelize')) {
+    /**
+     *  驼峰命名转下划线命名
+     *
+     * @param        $camelCaps
+     * @param string $separator
+     *
+     * @return string
+     */
+    function uncamelize($camelCaps, $separator = '_')
+    {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
     }
 }
