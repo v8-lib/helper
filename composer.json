@@ -1,6 +1,6 @@
 {
-    "name": "v8/helper",
-    "description": "Hyper日常函",
+    "name": "sht/settlement/helper",
+    "description": "结算日常使用函数",
     "type": "library",
     "license": "MIT",
     "authors": [
